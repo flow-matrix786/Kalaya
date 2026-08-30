@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-charcoal: #1c1710;
+    --color-charcoal-2: #241d13;
+    --color-charcoal-3: #2a2216;
+    --color-cream: #f5efe3;
+    --color-gold: #c9a44c;
+    --color-gold-soft: #e3caa0;
+    --color-terracotta: #b5502d;
+    --color-terracotta-dark: #943f22;
+    --color-green: #2f3b2a;
+  }
+
+  body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: #1c1710;
+    color: #f5efe3;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Fraunces', 'Playfair Display', serif;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1c1710;
+}
+::-webkit-scrollbar-thumb {
+  background: #382d20;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a44c;
+}
+
+/* Subtle botanical motif pattern */
+.bg-botanical-pattern {
+  background-image: radial-gradient(circle at 2px 2px, rgba(201, 164, 76, 0.08) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px -5px rgba(201, 164, 76, 0.25);
+}
+
+.gold-border-glow:hover {
+  box-shadow: 0 0 20px -3px rgba(201, 164, 76, 0.35);
+}
+

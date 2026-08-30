@@ -1,0 +1,6 @@
+{
+  "name": "Kalaya | Upscale Southern Thai Restaurant",
+  "description": "An elegant, chef-driven Southern Thai fine dining restaurant in Philadelphia featuring celebratory spice-inspired cuisine, James Beard Award-winning storytelling, and an interactive concierge.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
