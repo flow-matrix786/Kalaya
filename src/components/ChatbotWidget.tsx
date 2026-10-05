@@ -4,7 +4,7 @@ import { ChatMessage } from '../types';
 import { RESTAURANT_INFO } from '../data/restaurantData';
 import { BotanicalMotif } from './BotanicalMotif';
 
-const N8N_CHAT_WEBHOOK_URL = 'https://flowing-matrix.app.n8n.cloud/webhook/5393ab60-563c-4961-b100-3f53e58957e1/chat';
+const N8N_CHAT_WEBHOOK_URL = 'https://flowing-matrix.app.n8n.cloud/webhook/5b700b0b-1cb7-452e-a7b9-ce8b78c24839';
 
 interface ChatbotWidgetProps {
   onOpenReservation: () => void;
