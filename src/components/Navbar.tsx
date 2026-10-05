@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Calendar, Sparkles } from 'lucide-react';
-import { BotanicalMotif } from './BotanicalMotif';
+import { Bot, Sparkles, CheckCircle2, Search, ArrowRight, ShieldCheck, Menu as MenuIcon, X } from 'lucide-react';
+import { AGENCY_INFO } from '../data/agencyData';
 
 interface NavbarProps {
-  onOpenReservation: () => void;
-  onOpenMenu: () => void;
-  onOpenGiftCard: () => void;
-  onOpenAbout: () => void;
+  onOpenOrder: (tier?: 'starter' | 'standard' | 'pro') => void;
+  onOpenTracker: () => void;
+  onOpenPayment: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  onOpenReservation,
-  onOpenMenu,
-  onOpenGiftCard,
-  onOpenAbout,
+  onOpenOrder,
+  onOpenTracker,
+  onOpenPayment,
 }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -28,138 +26,144 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header
-      id="main-header"
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-[#1C1710]/95 backdrop-blur-md py-3 shadow-2xl border-b border-[#C9A44C]/25'
-          : 'bg-gradient-to-b from-[#1C1710]/90 via-[#1C1710]/40 to-transparent py-5 sm:py-6'
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        scrolled
+          ? 'bg-[#0B0F17]/90 backdrop-blur-md border-b border-white/10 shadow-2xl py-3'
+          : 'bg-transparent py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Logo (Left) */}
-        <a
-          href="#"
-          className="group flex items-center gap-2 text-decoration-none focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-          aria-label="Kalaya Southern Thai Kitchen Home"
-        >
-          <div className="w-8 h-8 rounded-full border border-[#C9A44C]/40 bg-[#241D13] flex items-center justify-center text-[#C9A44C] group-hover:border-[#C9A44C] group-hover:scale-105 transition-all">
-            <BotanicalMotif variant="lotus" className="w-4 h-4" />
+        {/* Brand Logo */}
+        <a href="#" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] p-[2px] transition-transform duration-300 group-hover:scale-105 shadow-lg shadow-pink-500/20">
+            <div className="w-full h-full bg-[#0B0F17] rounded-[10px] flex items-center justify-center">
+              <Bot className="w-5 h-5 text-white group-hover:text-pink-400 transition-colors" />
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-display font-semibold tracking-[0.14em] text-lg sm:text-xl text-[#E3CAA0] uppercase group-hover:text-white transition-colors">
-              Kalaya
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.28em] text-[#C9A44C] font-mono -mt-1 hidden xs:block">
-              Philly · Southern Thai
-            </span>
+          <div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-extrabold text-lg tracking-tight text-white">
+                Agentify<span className="text-pink-500">-360</span>
+              </span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Official Agency
+              </span>
+            </div>
+            <p className="text-[11px] text-gray-400 font-mono tracking-wide">Custom Instagram DM Bots</p>
           </div>
         </a>
 
-        {/* Desktop Navigation (Right) */}
-        <nav className="hidden md:flex items-center space-x-6 lg:space-x-8" aria-label="Main Navigation">
-          <button
-            onClick={onOpenMenu}
-            className="text-xs uppercase tracking-[0.18em] text-[#E3DAC9] hover:text-[#C9A44C] transition-colors py-1 relative group focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-          >
-            Menu
-            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A44C] transition-all duration-300 group-hover:w-full" />
-          </button>
-
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-7">
           <a
-            href="#chef"
-            className="text-xs uppercase tracking-[0.18em] text-[#E3DAC9] hover:text-[#C9A44C] transition-colors py-1 relative group focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
+            href="#pricing"
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
           >
-            About
-            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A44C] transition-all duration-300 group-hover:w-full" />
+            Packages & Pricing
           </a>
-
-          <button
-            onClick={onOpenGiftCard}
-            className="text-xs uppercase tracking-[0.18em] text-[#E3DAC9] hover:text-[#C9A44C] transition-colors py-1 relative group focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-          >
-            Gift Cards
-            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A44C] transition-all duration-300 group-hover:w-full" />
-          </button>
-
           <a
-            href="#contact"
-            className="text-xs uppercase tracking-[0.18em] text-[#E3DAC9] hover:text-[#C9A44C] transition-colors py-1 relative group focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
+            href="#simulator"
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
           >
-            Contact
-            <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A44C] transition-all duration-300 group-hover:w-full" />
+            Live DM Demo
           </a>
-
-          {/* Reservations CTA */}
-          <button
-            onClick={onOpenReservation}
-            className="px-5 py-2 rounded border border-[#C9A44C] bg-transparent text-[#E3CAA0] text-xs font-semibold uppercase tracking-[0.18em] hover:bg-[#C9A44C] hover:text-[#1C1710] transition-all duration-300 shadow-sm flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
+          <a
+            href="#features"
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors"
           >
-            <Calendar className="w-3.5 h-3.5" /> Reservations
+            Capabilities
+          </a>
+          <button
+            onClick={onOpenPayment}
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <span>Official Bank Info</span>
+          </button>
+          <button
+            onClick={onOpenTracker}
+            className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer"
+          >
+            <Search className="w-4 h-4 text-amber-400" />
+            <span>Track Order</span>
           </button>
         </nav>
 
-        {/* Mobile menu trigger */}
-        <div className="flex items-center gap-2 md:hidden">
+        {/* CTA Buttons */}
+        <div className="hidden sm:flex items-center gap-3">
           <button
-            onClick={onOpenReservation}
-            className="px-3 py-1.5 rounded border border-[#C9A44C] text-[#E3CAA0] text-[11px] font-semibold uppercase tracking-wider"
+            onClick={() => onOpenOrder()}
+            className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] hover:opacity-95 transition-all shadow-md shadow-pink-500/20 hover:shadow-pink-500/40 hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
           >
-            Book
-          </button>
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="p-2 text-[#E3CAA0] hover:text-white focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-            aria-label="Toggle navigation menu"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <span>Order Agent</span>
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
+
+        {/* Mobile menu trigger */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5"
+          aria-label="Toggle Menu"
+        >
+          {mobileMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+        </button>
       </div>
 
-      {/* Mobile Drawer Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#1C1710] border-b border-[#C9A44C]/30 px-6 py-6 space-y-4 text-center">
-          <div className="flex flex-col space-y-4">
+      {/* Mobile Drawer */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#0F1422] border-b border-white/10 px-4 pt-4 pb-6 space-y-3">
+          <a
+            href="#pricing"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-base font-medium text-gray-200 hover:text-white"
+          >
+            Packages & Pricing ($150 - $600)
+          </a>
+          <a
+            href="#simulator"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-base font-medium text-gray-200 hover:text-white"
+          >
+            Live DM Demo Simulator
+          </a>
+          <a
+            href="#features"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-2 text-base font-medium text-gray-200 hover:text-white"
+          >
+            Agency Capabilities
+          </a>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenPayment();
+            }}
+            className="w-full text-left py-2 text-base font-medium text-emerald-400 flex items-center gap-2"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>Official Meezan Bank Details</span>
+          </button>
+          <button
+            onClick={() => {
+              setMobileMenuOpen(false);
+              onOpenTracker();
+            }}
+            className="w-full text-left py-2 text-base font-medium text-amber-400 flex items-center gap-2"
+          >
+            <Search className="w-4 h-4" />
+            <span>Check Order Status</span>
+          </button>
+          <div className="pt-2">
             <button
               onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenMenu();
+                setMobileMenuOpen(false);
+                onOpenOrder();
               }}
-              className="text-sm uppercase tracking-[0.2em] text-[#E3DAC9] hover:text-[#C9A44C] py-2 border-b border-white/5"
+              className="w-full py-2.5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] flex items-center justify-center gap-2"
             >
-              Menu
-            </button>
-            <a
-              href="#chef"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm uppercase tracking-[0.2em] text-[#E3DAC9] hover:text-[#C9A44C] py-2 border-b border-white/5"
-            >
-              About Chef & Story
-            </a>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenGiftCard();
-              }}
-              className="text-sm uppercase tracking-[0.2em] text-[#E3DAC9] hover:text-[#C9A44C] py-2 border-b border-white/5"
-            >
-              Gift Cards
-            </button>
-            <a
-              href="#contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-sm uppercase tracking-[0.2em] text-[#E3DAC9] hover:text-[#C9A44C] py-2 border-b border-white/5"
-            >
-              Hours & Location
-            </a>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onOpenReservation();
-              }}
-              className="w-full py-3 rounded bg-[#B5502D] text-white text-xs uppercase tracking-[0.2em] font-semibold mt-2"
-            >
-              Reserve a Table
+              <span>Build My DM Agent Now</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>

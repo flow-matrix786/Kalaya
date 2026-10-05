@@ -2,54 +2,62 @@
 
 @layer base {
   :root {
-    --color-charcoal: #1c1710;
-    --color-charcoal-2: #241d13;
-    --color-charcoal-3: #2a2216;
-    --color-cream: #f5efe3;
-    --color-gold: #c9a44c;
-    --color-gold-soft: #e3caa0;
-    --color-terracotta: #b5502d;
-    --color-terracotta-dark: #943f22;
-    --color-green: #2f3b2a;
+    --bg-main: #0b0f17;
+    --bg-card: #131926;
+    --bg-card-border: rgba(255, 255, 255, 0.08);
+    --ig-pink: #e1306c;
+    --ig-purple: #833ab4;
+    --ig-orange: #f77737;
+    --ig-yellow: #fcaf45;
   }
 
   body {
-    font-family: 'Work Sans', sans-serif;
-    background-color: #1c1710;
-    color: #f5efe3;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #0b0f17;
+    color: #f3f4f6;
   }
 
-  h1, h2, h3, .font-display {
-    font-family: 'Fraunces', 'Playfair Display', serif;
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #1c1710;
+  background: #0b0f17;
 }
 ::-webkit-scrollbar-thumb {
-  background: #382d20;
-  border-radius: 4px;
+  background: #1f2937;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #c9a44c;
+  background: #374151;
 }
 
-/* Subtle botanical motif pattern */
-.bg-botanical-pattern {
-  background-image: radial-gradient(circle at 2px 2px, rgba(201, 164, 76, 0.08) 1px, transparent 0);
-  background-size: 32px 32px;
+/* Subtle background glow and grids */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
-.gold-glow {
-  box-shadow: 0 0 25px -5px rgba(201, 164, 76, 0.25);
+.ig-gradient-text {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.gold-border-glow:hover {
-  box-shadow: 0 0 20px -3px rgba(201, 164, 76, 0.35);
+.ig-gradient-bg {
+  background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
 }
 
+.ig-gradient-border {
+  border-image: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045) 1;
+}
+
+.card-glow {
+  box-shadow: 0 0 40px -10px rgba(131, 58, 180, 0.15);
+}

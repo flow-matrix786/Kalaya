@@ -1,29 +1,33 @@
-export interface MenuItem {
-  id: string;
+export type PackageTier = 'starter' | 'standard' | 'pro';
+
+export interface PackageInfo {
+  id: PackageTier;
   name: string;
-  thaiName: string;
-  category: 'starters' | 'curries' | 'wok_charcoal' | 'seafood' | 'desserts' | 'cocktails';
-  description: string;
-  price: string;
-  spiceLevel: 0 | 1 | 2 | 3 | 4; // 0 none, 1 mild, 2 medium, 3 fiery southern, 4 extreme
-  dietary?: ('Gluten-Free' | 'Dairy-Free' | 'Pescatarian' | 'Vegetarian Option' | 'Contains Nuts' | 'Shellfish')[];
-  featured?: boolean;
-  tag?: string;
-  ingredients?: string[];
+  price: number;
+  priceFormatted: string;
+  breakdown: string;
+  tagline: string;
+  popular?: boolean;
+  features: string[];
+  bestFor: string;
 }
 
-export interface ChefBio {
-  name: string;
-  title: string;
-  subtitle: string;
-  hometown: string;
-  story: string[];
-  accolades: {
-    year: string;
-    award: string;
-    organization: string;
-  }[];
-  quote: string;
+export type OrderStatus = 'PENDING' | 'UNPAID CONFIRMED' | 'CANCELLED';
+
+export interface OrderRecord {
+  orderNumber: string;
+  customerName: string;
+  instagramName: string;
+  instagramHandle: string;
+  packageTier: PackageTier;
+  packageName: string;
+  amount: number;
+  notes: string;
+  status: OrderStatus;
+  createdAt: string;
+  lastUpdated: string;
+  paymentProofUrl?: string;
+  paymentConfirmationNote?: string;
 }
 
 export interface ChatMessage {
@@ -34,18 +38,14 @@ export interface ChatMessage {
   quickReplies?: string[];
   actionLink?: {
     text: string;
-    action: 'open_reservations' | 'open_menu' | 'open_hours' | 'open_directions' | 'open_chef';
+    action: 'open_order' | 'open_payment' | 'open_status' | 'open_pricing';
   };
-}
-
-export interface ReservationDetails {
-  date: string;
-  time: string;
-  guests: number;
-  seatingArea: 'Main Dining Hall' | "Chef's Counter" | 'Covered Garden Pergola';
-  name: string;
-  email: string;
-  phone: string;
-  dietaryNotes: string;
-  celebrationType?: string;
+  audioNote?: {
+    duration: string;
+    transcription: string;
+  };
+  imageAttachment?: {
+    url: string;
+    caption?: string;
+  };
 }

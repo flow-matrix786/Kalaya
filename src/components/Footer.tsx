@@ -1,216 +1,107 @@
-import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, Instagram, Facebook, ArrowUp, Sparkles, CheckCircle2 } from 'lucide-react';
-import { RESTAURANT_INFO } from '../data/restaurantData';
-import { BotanicalMotif } from './BotanicalMotif';
+import React from 'react';
+import { Bot, ShieldCheck, ArrowRight, Heart } from 'lucide-react';
+import { AGENCY_INFO, OFFICIAL_PAYMENT_DETAILS } from '../data/agencyData';
 
 interface FooterProps {
-  onOpenMenu: () => void;
-  onOpenAbout: () => void;
-  onOpenGiftCard: () => void;
-  onOpenReservation: () => void;
+  onOpenOrder: () => void;
+  onOpenPayment: () => void;
+  onOpenTracker: () => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({
-  onOpenMenu,
-  onOpenAbout,
-  onOpenGiftCard,
-  onOpenReservation,
+  onOpenOrder,
+  onOpenPayment,
+  onOpenTracker,
 }) => {
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newsletterEmail) {
-      setNewsletterSubmitted(true);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer id="contact" className="relative bg-[#14100A] text-[#CBBFA1] pt-20 pb-12 px-4 sm:px-6 lg:px-8 border-t border-[#C9A44C]/25">
-      {/* Background motif */}
-      <div className="absolute inset-0 bg-botanical-pattern opacity-15 pointer-events-none" />
-
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Top Grid: 4 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-16 border-b border-[#C9A44C]/20">
-          
-          {/* Col 1: Brand & Contact */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full border border-[#C9A44C]/50 bg-[#1C1710] flex items-center justify-center text-[#C9A44C]">
-                <BotanicalMotif variant="lotus" className="w-4 h-4" />
-              </div>
-              <span className="font-display font-semibold tracking-[0.16em] text-2xl text-[#E3CAA0] uppercase">
-                Kalaya
-              </span>
-            </div>
-
-            <p className="text-xs text-[#A69B82] leading-relaxed">
-              Upscale Southern Thai fine dining in Philadelphia, celebrating the spirit and recipes of Trang province.
-            </p>
-
-            <div className="space-y-2 text-xs text-[#D8CFBC] pt-2">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-[#C9A44C] shrink-0 mt-0.5" />
-                <span>{RESTAURANT_INFO.address}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-[#C9A44C] shrink-0" />
-                <a href="tel:2153853777" className="hover:text-[#C9A44C] transition-colors">
-                  {RESTAURANT_INFO.phone}
-                </a>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-[#C9A44C] shrink-0" />
-                <a href={`mailto:${RESTAURANT_INFO.email}`} className="hover:text-[#C9A44C] transition-colors">
-                  {RESTAURANT_INFO.email}
-                </a>
-              </div>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#C9A44C]/30 bg-[#1C1710] flex items-center justify-center text-[#E3CAA0] hover:text-[#1C1710] hover:bg-[#C9A44C] transition-all"
-                aria-label="Kalaya on Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-full border border-[#C9A44C]/30 bg-[#1C1710] flex items-center justify-center text-[#E3CAA0] hover:text-[#1C1710] hover:bg-[#C9A44C] transition-all"
-                aria-label="Kalaya on Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-
-          {/* Col 2: Hours of Service */}
-          <div className="space-y-4">
-            <h4 className="font-display text-sm uppercase tracking-[0.2em] text-[#E3CAA0] font-semibold flex items-center gap-1.5">
-              <Clock className="w-4 h-4 text-[#C9A44C]" /> Hours of Service
-            </h4>
-            <div className="space-y-3 text-xs">
-              {RESTAURANT_INFO.hours.map((h, i) => (
-                <div key={i} className="border-b border-white/5 pb-2">
-                  <div className="text-[#F5EFE3] font-medium">{h.days}</div>
-                  <div className="text-[#C9A44C] font-mono text-[11px] mt-0.5">{h.times}</div>
-                  <div className="text-[10px] text-[#8A7F65] uppercase tracking-wider">{h.type}</div>
+    <footer className="bg-[#080B12] border-t border-white/10 text-gray-400 py-16 text-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/5">
+          {/* Brand info */}
+          <div className="space-y-4 md:col-span-1">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] p-[1.5px]">
+                <div className="w-full h-full bg-[#080B12] rounded-[6px] flex items-center justify-center">
+                  <Bot className="w-4 h-4 text-white" />
                 </div>
-              ))}
+              </div>
+              <span className="font-bold text-base text-white tracking-tight">Agentify-360</span>
+            </div>
+            <p className="text-xs text-gray-400 leading-relaxed">
+              AI Automation Agency engineering custom Instagram DM chatbots for creators, boutique brands, and businesses.
+            </p>
+            <div className="flex items-center gap-2 text-[11px] text-emerald-400">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Official Registered Account Channel</span>
             </div>
           </div>
 
-          {/* Col 3: Navigation & Sister Concepts */}
-          <div className="space-y-4">
-            <h4 className="font-display text-sm uppercase tracking-[0.2em] text-[#E3CAA0] font-semibold">
-              Explore & Sister Brands
-            </h4>
-            <ul className="space-y-2 text-xs text-[#D8CFBC]">
+          {/* Quick links */}
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-3">Service Tiers</h4>
+            <ul className="space-y-2">
               <li>
-                <button onClick={onOpenMenu} className="hover:text-[#C9A44C] transition-colors">
-                  Full Dining Menus
-                </button>
+                <a href="#pricing" className="hover:text-white transition-colors">
+                  Starter ($150) — Text DMs
+                </a>
               </li>
               <li>
-                <button onClick={onOpenAbout} className="hover:text-[#C9A44C] transition-colors">
-                  Chef Nok & Heritage Story
-                </button>
+                <a href="#pricing" className="hover:text-white transition-colors">
+                  Standard ($350) — + Voice Notes
+                </a>
               </li>
               <li>
-                <button onClick={onOpenGiftCard} className="hover:text-[#C9A44C] transition-colors">
-                  Gift Cards & Dining Passes
-                </button>
+                <a href="#pricing" className="hover:text-white transition-colors">
+                  Pro ($600) — + Image OCR
+                </a>
               </li>
               <li>
-                <button onClick={onOpenReservation} className="hover:text-[#C9A44C] transition-colors">
-                  Resy Table Bookings
-                </button>
+                <span className="text-amber-400 text-[11px]">Upgrade anytime</span>
               </li>
             </ul>
+          </div>
 
-            <div className="pt-3">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-[#C9A44C] font-semibold mb-2">
-                Sister Concepts
-              </div>
-              <ul className="space-y-1 text-xs text-[#8A7F65]">
-                {RESTAURANT_INFO.sisterRestaurants.map((s, idx) => (
-                  <li key={idx} className="flex justify-between items-center text-[11px]">
-                    <span className="text-[#D8CFBC]">{s.name}</span>
-                    <span className="text-[#8A7F65] italic">{s.location}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* Official Bank Account */}
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-3">Authorized Payment Info</h4>
+            <div className="space-y-1.5 p-3 rounded-xl bg-white/5 border border-white/5 text-[11px]">
+              <p className="text-white font-semibold">{OFFICIAL_PAYMENT_DETAILS.bank}</p>
+              <p className="text-emerald-300 font-mono">{OFFICIAL_PAYMENT_DETAILS.accountTitle}</p>
+              <p className="text-gray-300 font-mono">{OFFICIAL_PAYMENT_DETAILS.accountNo}</p>
+              <button
+                onClick={onOpenPayment}
+                className="text-pink-400 hover:text-pink-300 underline font-semibold mt-1 block cursor-pointer"
+              >
+                View Full Bank & IBAN
+              </button>
             </div>
           </div>
 
-          {/* Col 4: Newsletter & Press */}
-          <div className="space-y-4">
-            <h4 className="font-display text-sm uppercase tracking-[0.2em] text-[#E3CAA0] font-semibold flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#C9A44C]" /> The Spice Chronicle
-            </h4>
-            <p className="text-xs text-[#A69B82] leading-relaxed">
-              Receive private invitations to seasonal tasting menus, cookbook signings, and special cellar releases.
-            </p>
-
-            {!newsletterSubmitted ? (
-              <form onSubmit={handleNewsletterSubmit} className="space-y-2">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your email"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="w-full bg-[#1C1710] border border-[#C9A44C]/30 rounded px-3 py-2 text-xs text-[#F5EFE3] placeholder:text-[#6D634E] focus:border-[#C9A44C] focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="w-full py-2 rounded bg-[#B5502D] hover:bg-[#943F22] text-white text-[11px] uppercase tracking-[0.16em] font-semibold transition-colors"
-                >
-                  Subscribe
-                </button>
-              </form>
-            ) : (
-              <div className="p-3 rounded bg-[#2F3B2A] border border-[#C9A44C]/30 text-xs text-[#E3CAA0] flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#C9A44C] shrink-0" />
-                <span>Sawasdee! You are now subscribed to our chronicle.</span>
-              </div>
-            )}
+          {/* Agency Actions */}
+          <div className="space-y-3">
+            <h4 className="text-white font-bold text-xs uppercase tracking-wider mb-3">Agency Actions</h4>
+            <button
+              onClick={() => onOpenOrder()}
+              className="w-full py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold hover:opacity-95 transition-opacity text-xs cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              <span>Build Custom Agent</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={onOpenTracker}
+              className="w-full py-2.5 px-3.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 transition-colors text-xs cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              <span>Track Order (AG360)</span>
+            </button>
           </div>
-
         </div>
 
-        {/* Bottom Legal & Copyright Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#8A7F65]">
-          <div className="flex flex-wrap items-center gap-4">
-            <span>© {new Date().getFullYear()} Kalaya Southern Thai Kitchen. All rights reserved.</span>
-            <span>·</span>
-            <a href="#" className="hover:text-[#C9A44C] transition-colors">Privacy Policy</a>
-            <span>·</span>
-            <a href="#" className="hover:text-[#C9A44C] transition-colors">Accessibility (WCAG AA)</a>
-            <span>·</span>
-            <a href="#" className="hover:text-[#C9A44C] transition-colors">Terms of Service</a>
-          </div>
-
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 text-[#C9A44C] hover:text-[#E3CAA0] transition-colors text-xs uppercase tracking-wider focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-            aria-label="Scroll back to top"
-          >
-            <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
-          </button>
+        {/* Bottom bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
+          <p>© {new Date().getFullYear()} Agentify-360. All rights reserved. Meta Graph API Compliant.</p>
+          <p className="flex items-center gap-1">
+            Built for high-converting Instagram DM automation
+          </p>
         </div>
       </div>
     </footer>

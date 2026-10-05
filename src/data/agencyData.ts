@@ -1,0 +1,125 @@
+import { PackageInfo, OrderRecord } from '../types';
+
+export const AGENCY_INFO = {
+  name: 'Agentify-360',
+  tagline: 'Custom Instagram DM AI Chatbots for Businesses & Creators',
+  description:
+    'We build enterprise-grade, human-feeling Instagram DM automation that turns everyday profile visitors, reel viewers, and story repliers into paying customers 24/7.',
+  instagramHandle: '@agentify.360',
+  instagramUrl: 'https://instagram.com/agentify.360',
+  supportEmail: 'team@agentify-360.com',
+  turnaroundTime: '3 to 5 business days from payment proof',
+};
+
+export const OFFICIAL_PAYMENT_DETAILS = {
+  bank: 'Meezan Bank',
+  accountTitle: 'SAIF UR REHMAN AKHTAR',
+  accountNo: '76010111536310',
+  iban: 'PK74MEZN0076010111536310',
+  currency: 'USD / PKR equivalent',
+  importantNotice:
+    'This is the ONLY official bank account authorized to receive payments for Agentify-360. Never send funds to any other account.',
+};
+
+export const PACKAGES: PackageInfo[] = [
+  {
+    id: 'starter',
+    name: 'Starter Tier',
+    price: 150,
+    priceFormatted: '$150',
+    breakdown: 'One-time setup · No monthly licensing lock-in',
+    tagline: 'Text-Only Instagram DM Auto-Reply Agent',
+    features: [
+      'Understands & replies to Instagram DMs automatically (text only)',
+      '24/7 lead qualification & FAQ handling',
+      'Natural, human-like brand voice calibration',
+      'Captures customer name, email, phone & requirements',
+      'Automated Google Sheets order & lead logging',
+      'Seamless human agent takeover trigger',
+      'Can upgrade to Voice or Vision anytime',
+    ],
+    bestFor: 'E-commerce stores, boutique brands, service consultants, and creators with high text DM volume.',
+  },
+  {
+    id: 'standard',
+    name: 'Standard Tier',
+    price: 350,
+    priceFormatted: '$350',
+    breakdown: '$150 Starter + $200 Voice Add-on',
+    tagline: 'Starter + Audio Voice Message Listening & Reply',
+    popular: true,
+    features: [
+      'Everything in Starter Tier included',
+      'Listens to voice notes sent by followers & transcribes in real-time',
+      'Replies back with custom synthesized voice messages in your brand voice',
+      'Handles bilingual voice messages (English, Urdu, regional accents)',
+      'Unmatched trust factor — followers feel they are talking to a real founder',
+      'Logs audio transcripts directly to Google Sheets CRM',
+      'Can upgrade to Pro Image Analysis anytime',
+    ],
+    bestFor: 'Coaches, agencies, luxury brands, and personal brands whose followers love sending audio voice notes.',
+  },
+  {
+    id: 'pro',
+    name: 'Pro Tier',
+    price: 600,
+    priceFormatted: '$600',
+    breakdown: '$150 + $200 Voice + $250 Vision Add-on',
+    tagline: 'Standard + Advanced Image & Payment Receipt Analysis',
+    features: [
+      'Everything in Standard Tier included',
+      'Advanced Computer Vision & Multimodal Image Analysis',
+      'Analyzes customer screenshots, payment receipts, and bank transfer slips',
+      'Checks recipient bank title, account number, and amount automatically',
+      'Identifies product photos & screenshot inquiries directly from feed',
+      'Logs verified transaction screenshots straight to Google Sheets',
+      'Priority VIP onboarding & ongoing prompt refinements',
+    ],
+    bestFor: 'High-volume e-commerce brands, digital agencies, and retailers handling bank transfers & product queries.',
+  },
+];
+
+export const INITIAL_DEMO_ORDERS: OrderRecord[] = [
+  {
+    orderNumber: 'AG360-84219',
+    customerName: 'Hamza Malik',
+    instagramName: 'PureBotanicals Skincare',
+    instagramHandle: '@purebotanicals.pk',
+    packageTier: 'pro',
+    packageName: 'Pro Tier ($600)',
+    amount: 600,
+    notes: 'Skincare brand with 80+ products. Need payment receipt validation & voice replies.',
+    status: 'UNPAID CONFIRMED',
+    createdAt: '2026-10-04 14:22',
+    lastUpdated: '2026-10-04 15:45',
+    paymentConfirmationNote: 'Screenshot received (Meezan Bank Rs. 168,000 / $600). Team verification in queue.',
+  },
+  {
+    orderNumber: 'AG360-59302',
+    customerName: 'Sarah Jenkins',
+    instagramName: 'Glow With Sarah',
+    instagramHandle: '@sarah.glowfitness',
+    packageTier: 'standard',
+    packageName: 'Standard Tier ($350)',
+    amount: 350,
+    notes: 'Fitness coaching program. Followers send long voice notes describing their fitness goals.',
+    status: 'PENDING',
+    createdAt: '2026-10-05 02:10',
+    lastUpdated: '2026-10-05 02:10',
+    paymentConfirmationNote: 'Awaiting payment transfer to Meezan Bank account.',
+  },
+  {
+    orderNumber: 'AG360-12847',
+    customerName: 'Zainab Qureshi',
+    instagramName: 'Zainab Studio Couture',
+    instagramHandle: '@zainab.couture',
+    packageTier: 'starter',
+    packageName: 'Starter Tier ($150)',
+    amount: 150,
+    notes: 'Bridal wear inquiries & automated measurement guide dispatch.',
+    status: 'UNPAID CONFIRMED',
+    createdAt: '2026-10-03 18:30',
+    lastUpdated: '2026-10-04 09:12',
+    paymentConfirmationNote: 'Receipt matched to SAIF UR REHMAN AKHTAR. Team manual review pending.',
+  },
+];

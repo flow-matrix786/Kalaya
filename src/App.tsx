@@ -1,111 +1,154 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { ChefSpotlight } from './components/ChefSpotlight';
-import { MenuTeaser } from './components/MenuTeaser';
-import { ReservationBanner } from './components/ReservationBanner';
+import { LiveSimulator } from './components/LiveSimulator';
+import { PackagesSection } from './components/PackagesSection';
+import { PaymentDetailsSection } from './components/PaymentDetailsSection';
+import { FeaturesSection } from './components/FeaturesSection';
+import { OrderStatusTracker } from './components/OrderStatusTracker';
 import { Footer } from './components/Footer';
 import { ChatbotWidget } from './components/ChatbotWidget';
-import { ReservationModal } from './components/ReservationModal';
-import { MenuModal } from './components/MenuModal';
-import { GiftCardModal } from './components/GiftCardModal';
-import { AboutModal } from './components/AboutModal';
+import { OrderModal } from './components/OrderModal';
+import { PaymentModal } from './components/PaymentModal';
+import { OrderRecord, OrderStatus, PackageTier } from './types';
+import { INITIAL_DEMO_ORDERS } from './data/agencyData';
 
 export default function App() {
-  const [isReservationOpen, setIsReservationOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isGiftCardOpen, setIsGiftCardOpen] = useState(false);
-  const [isAboutOpen, setIsAboutOpen] = useState(false);
+  const [orders, setOrders] = useState<OrderRecord[]>(() => {
+    try {
+      const stored = localStorage.getItem('agentify360_orders');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed reading stored orders:', e);
+    }
+    return INITIAL_DEMO_ORDERS;
+  });
 
-  // Reservation pre-fill states
-  const [resPartySize, setResPartySize] = useState<number>(2);
-  const [resDate, setResDate] = useState<string | undefined>(undefined);
-  const [resTime, setResTime] = useState<string | undefined>(undefined);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<PackageTier>('standard');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
-  const handleOpenReservation = (partySize?: number, date?: string, time?: string) => {
-    if (partySize) setResPartySize(partySize);
-    if (date) setResDate(date);
-    if (time) setResTime(time);
-    setIsReservationOpen(true);
+  // Sync orders to localStorage whenever updated
+  useEffect(() => {
+    try {
+      localStorage.setItem('agentify360_orders', JSON.stringify(orders));
+    } catch (e) {
+      console.warn('Failed writing orders to localStorage:', e);
+    }
+  }, [orders]);
+
+  const handleAddOrder = (newOrder: OrderRecord) => {
+    setOrders((prev) => [newOrder, ...prev.filter((o) => o.orderNumber !== newOrder.orderNumber)]);
+  };
+
+  const handleUpdateOrderStatus = (orderNumber: string, status: OrderStatus, note?: string) => {
+    setOrders((prev) =>
+      prev.map((ord) => {
+        if (ord.orderNumber.toUpperCase() === orderNumber.toUpperCase()) {
+          return {
+            ...ord,
+            status,
+            lastUpdated: 'Just now',
+            paymentConfirmationNote: note || ord.paymentConfirmationNote,
+          };
+        }
+        return ord;
+      })
+    );
+  };
+
+  const handleOpenOrder = (tier?: PackageTier) => {
+    if (tier) setSelectedTier(tier);
+    setIsOrderModalOpen(true);
+  };
+
+  const handleScrollToTracker = () => {
+    const el = document.getElementById('tracker');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#1C1710] text-[#F5EFE3] selection:bg-[#C9A44C] selection:text-[#1C1710] font-sans antialiased relative">
-      {/* 1. Sticky/Overlay Navbar */}
+    <div className="min-h-screen bg-[#0B0F17] text-[#F3F4F6] font-sans antialiased relative selection:bg-pink-500 selection:text-white">
+      {/* 1. Header Navigation */}
       <Navbar
-        onOpenReservation={() => handleOpenReservation()}
-        onOpenMenu={() => setIsMenuOpen(true)}
-        onOpenGiftCard={() => setIsGiftCardOpen(true)}
-        onOpenAbout={() => setIsAboutOpen(true)}
+        onOpenOrder={(tier) => handleOpenOrder(tier)}
+        onOpenTracker={handleScrollToTracker}
+        onOpenPayment={() => setIsPaymentModalOpen(true)}
       />
 
       <main>
-        {/* 2. Full-bleed Hero */}
+        {/* 2. Full-bleed Hero with Live Instagram Mockup */}
         <Hero
-          onOpenReservation={() => handleOpenReservation()}
-          onOpenMenu={() => setIsMenuOpen(true)}
+          onOpenOrder={(tier) => handleOpenOrder(tier)}
+          onOpenSimulator={() => {
+            const el = document.getElementById('simulator');
+            el?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          onOpenPayment={() => setIsPaymentModalOpen(true)}
         />
 
-        {/* 3. Chef Spotlight */}
-        <ChefSpotlight onOpenAbout={() => setIsAboutOpen(true)} />
+        {/* 3. Interactive DM Simulator Showcase */}
+        <LiveSimulator />
 
-        {/* 4. Menu Teaser */}
-        <MenuTeaser
-          onOpenMenu={() => setIsMenuOpen(true)}
-          onOpenReservation={() => handleOpenReservation()}
+        {/* 4. Pricing & Tiers (Starter $150 / Standard $350 / Pro $600) */}
+        <PackagesSection onSelectTier={(tier) => handleOpenOrder(tier)} />
+
+        {/* 5. Official Payment Information (Meezan Bank / SAIF UR REHMAN AKHTAR) */}
+        <PaymentDetailsSection
+          onOpenOrder={() => handleOpenOrder()}
+          onOpenTracker={handleScrollToTracker}
         />
 
-        {/* 5. Second CTA Banner */}
-        <ReservationBanner
-          onOpenReservation={(party, d, t) => handleOpenReservation(party, d, t)}
+        {/* 6. Agency Capabilities & Architecture */}
+        <FeaturesSection />
+
+        {/* 7. Real-Time Order & Payment Status Tracker */}
+        <OrderStatusTracker
+          orders={orders}
+          onUpdateOrderStatus={handleUpdateOrderStatus}
+          onOpenOrder={() => handleOpenOrder()}
+          onOpenPayment={() => setIsPaymentModalOpen(true)}
         />
       </main>
 
-      {/* 6. Footer */}
+      {/* 8. Footer */}
       <Footer
-        onOpenMenu={() => setIsMenuOpen(true)}
-        onOpenAbout={() => setIsAboutOpen(true)}
-        onOpenGiftCard={() => setIsGiftCardOpen(true)}
-        onOpenReservation={() => handleOpenReservation()}
+        onOpenOrder={() => handleOpenOrder()}
+        onOpenPayment={() => setIsPaymentModalOpen(true)}
+        onOpenTracker={handleScrollToTracker}
       />
 
-      {/* 7. Add-On: AI Chatbot Concierge Widget */}
+      {/* 9. Connected Official Instagram DM Assistant Widget */}
       <ChatbotWidget
-        onOpenReservation={() => handleOpenReservation()}
-        onOpenMenu={() => setIsMenuOpen(true)}
-        onOpenAbout={() => setIsAboutOpen(true)}
+        onOpenOrder={(tier) => handleOpenOrder(tier)}
+        onOpenPayment={() => setIsPaymentModalOpen(true)}
+        onOpenTracker={handleScrollToTracker}
+        orders={orders}
+        onAddOrder={handleAddOrder}
+        onUpdateOrderStatus={handleUpdateOrderStatus}
       />
 
-      {/* Interactive Modals */}
-      <ReservationModal
-        isOpen={isReservationOpen}
-        onClose={() => setIsReservationOpen(false)}
-        initialPartySize={resPartySize}
-        initialDate={resDate}
-        initialTime={resTime}
+      {/* Order Booking Modal */}
+      <OrderModal
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        preselectedTier={selectedTier}
+        onCreateOrder={handleAddOrder}
+        onOpenPayment={() => setIsPaymentModalOpen(true)}
       />
 
-      <MenuModal
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-        onOpenReservation={() => {
-          setIsMenuOpen(false);
-          handleOpenReservation();
-        }}
-      />
-
-      <GiftCardModal
-        isOpen={isGiftCardOpen}
-        onClose={() => setIsGiftCardOpen(false)}
-      />
-
-      <AboutModal
-        isOpen={isAboutOpen}
-        onClose={() => setIsAboutOpen(false)}
-        onOpenReservation={() => {
-          setIsAboutOpen(false);
-          handleOpenReservation();
-        }}
+      {/* Official Payment Account Details Modal */}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        onOpenOrder={() => handleOpenOrder()}
       />
     </div>
   );

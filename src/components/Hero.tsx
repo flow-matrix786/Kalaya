@@ -1,106 +1,265 @@
-import React from 'react';
-import { Calendar, ChevronDown, Sparkles } from 'lucide-react';
-import { BotanicalMotif } from './BotanicalMotif';
+import React, { useState } from 'react';
+import { ArrowRight, Bot, Sparkles, Mic, Image as ImageIcon, FileSpreadsheet, CheckCircle2, ShieldCheck, Play, Send } from 'lucide-react';
+import { OFFICIAL_PAYMENT_DETAILS } from '../data/agencyData';
 
 interface HeroProps {
-  onOpenReservation: () => void;
-  onOpenMenu: () => void;
+  onOpenOrder: (tier?: 'starter' | 'standard' | 'pro') => void;
+  onOpenSimulator: () => void;
+  onOpenPayment: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenReservation, onOpenMenu }) => {
+export const Hero: React.FC<HeroProps> = ({
+  onOpenOrder,
+  onOpenSimulator,
+  onOpenPayment,
+}) => {
+  // Mini interactive DM widget in hero
+  const [activeTab, setActiveTab] = useState<'text' | 'voice' | 'image'>('text');
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center text-center px-4 sm:px-6 lg:px-8 pt-20 pb-16 overflow-hidden bg-[#1C1710]"
-    >
-      {/* Layered atmospheric gradients: Burnt terracotta top radial, deep herbal green bottom corner, charcoal base */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(181,80,45,0.38),transparent_70%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_90%,rgba(47,59,42,0.45),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_85%,rgba(201,164,76,0.12),transparent_40%)] pointer-events-none" />
+    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-grid-pattern">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-purple-600/15 via-pink-600/15 to-amber-500/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* Repeating background diagonal spice line texture */}
-      <div className="absolute inset-0 bg-botanical-pattern opacity-40 pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          {/* Left Column: Value Prop */}
+          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-gray-300 backdrop-blur-sm">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Agentify-360 AI Automation Agency</span>
+              <span className="text-gray-500">·</span>
+              <span className="text-pink-400 font-semibold">Instagram DM Specialists</span>
+            </div>
 
-      {/* Decorative Corner Flourishes */}
-      <div className="absolute top-24 left-6 hidden lg:block opacity-30">
-        <BotanicalMotif variant="corner" className="w-12 h-12" />
-      </div>
-      <div className="absolute top-24 right-6 hidden lg:block opacity-30 -scale-x-100">
-        <BotanicalMotif variant="corner" className="w-12 h-12" />
-      </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+              Turn Your Instagram DMs Into a{' '}
+              <span className="ig-gradient-text">24/7 Revenue Engine</span>
+            </h1>
 
-      {/* Main Content Container */}
-      <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center justify-center">
-        {/* Eyebrow with gold botanical motif */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A44C]/35 bg-[#241D13]/70 backdrop-blur-sm mb-6 animate-fade-in shadow-inner">
-          <BotanicalMotif variant="lotus" className="w-3.5 h-3.5 text-[#C9A44C]" />
-          <span className="text-[#E3CAA0] text-[11px] sm:text-xs uppercase tracking-[0.3em] font-semibold">
-            Philadelphia · Southern Thai Fine Dining
-          </span>
-          <BotanicalMotif variant="lotus" className="w-3.5 h-3.5 text-[#C9A44C]" />
+            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
+              We build custom, human-like AI agents for creators & businesses. Auto-replies in text,
+              listens & responds to voice notes, analyzes payment receipts, and logs orders straight to Google Sheets.
+            </p>
+
+            {/* Quick 3-Tier Badges */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161D2C] border border-white/10 text-xs text-gray-200">
+                <span className="font-bold text-white">Starter</span>
+                <span className="text-gray-400">·</span>
+                <span className="text-pink-400 font-mono font-semibold">$150</span>
+                <span className="text-gray-400 text-[11px]">(Text DMs)</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161D2C] border border-pink-500/30 text-xs text-gray-200">
+                <span className="font-bold text-white">Standard</span>
+                <span className="text-gray-400">·</span>
+                <span className="text-pink-400 font-mono font-semibold">$350</span>
+                <span className="text-gray-400 text-[11px]">(+ Voice Notes)</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#161D2C] border border-purple-500/30 text-xs text-gray-200">
+                <span className="font-bold text-white">Pro</span>
+                <span className="text-gray-400">·</span>
+                <span className="text-pink-400 font-mono font-semibold">$600</span>
+                <span className="text-gray-400 text-[11px]">(+ Image Vision)</span>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+              <button
+                onClick={() => onOpenOrder()}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] shadow-xl shadow-pink-500/25 hover:shadow-pink-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2.5 cursor-pointer text-base"
+              >
+                <span>Order Custom DM Agent</span>
+                <ArrowRight className="w-5 h-5" />
+              </button>
+
+              <a
+                href="#simulator"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl font-semibold text-gray-200 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all flex items-center justify-center gap-2 cursor-pointer text-base"
+              >
+                <Sparkles className="w-4 h-4 text-pink-400" />
+                <span>Try Live Demo Below</span>
+              </a>
+            </div>
+
+            {/* Trust guarantees */}
+            <div className="pt-4 grid grid-cols-3 gap-3 border-t border-white/10 text-xs text-gray-400">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>Start at any tier, upgrade later</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <FileSpreadsheet className="w-4 h-4 text-blue-400 shrink-0" />
+                <span>Auto-logs to Google Sheets</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>Official Meezan Bank account</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Live Instagram DM Mockup Phone */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="w-full max-w-[380px] rounded-[36px] bg-[#10141E] border-[3px] border-white/15 p-3.5 shadow-2xl card-glow relative">
+              {/* Phone Notch */}
+              <div className="w-28 h-4 bg-black/80 rounded-full mx-auto mb-2" />
+
+              {/* Instagram Direct Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-white/10 px-2">
+                <div className="flex items-center gap-2.5">
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#833ab4] via-[#fd1d1d] to-[#fcb045] p-[2px]">
+                      <div className="w-full h-full bg-[#10141E] rounded-full flex items-center justify-center">
+                        <Bot className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                    <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#10141E]" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1">
+                      <span className="font-bold text-sm text-white">agentify.360</span>
+                      <span className="w-3.5 h-3.5 rounded-full bg-blue-500 flex items-center justify-center text-[9px] text-white font-bold">✓</span>
+                    </div>
+                    <p className="text-[11px] text-gray-400">Active now · Instagram AI Agent</p>
+                  </div>
+                </div>
+                <div className="text-[10px] font-mono px-2 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                  LIVE DEMO
+                </div>
+              </div>
+
+              {/* Demo Mode Selector Tabs */}
+              <div className="grid grid-cols-3 gap-1 my-3 bg-[#0B0F17] p-1 rounded-xl text-[11px] font-medium text-gray-400">
+                <button
+                  onClick={() => setActiveTab('text')}
+                  className={`py-1 rounded-lg transition-all ${
+                    activeTab === 'text' ? 'bg-[#1C2333] text-white font-semibold shadow' : 'hover:text-gray-200'
+                  }`}
+                >
+                  Starter ($150)
+                </button>
+                <button
+                  onClick={() => setActiveTab('voice')}
+                  className={`py-1 rounded-lg transition-all ${
+                    activeTab === 'voice' ? 'bg-[#1C2333] text-white font-semibold shadow' : 'hover:text-gray-200'
+                  }`}
+                >
+                  Voice ($350)
+                </button>
+                <button
+                  onClick={() => setActiveTab('image')}
+                  className={`py-1 rounded-lg transition-all ${
+                    activeTab === 'image' ? 'bg-[#1C2333] text-white font-semibold shadow' : 'hover:text-gray-200'
+                  }`}
+                >
+                  Vision ($600)
+                </button>
+              </div>
+
+              {/* Simulated Chat Feed */}
+              <div className="space-y-3 min-h-[300px] flex flex-col justify-end text-xs p-1">
+                {activeTab === 'text' && (
+                  <>
+                    <div className="self-end bg-[#374151] text-white px-3.5 py-2 rounded-2xl rounded-tr-none max-w-[85%]">
+                      Hey! How much does an Instagram bot cost for my apparel brand?
+                    </div>
+                    <div className="self-start bg-[#1F293D] border border-white/10 text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[90%] space-y-1.5">
+                      <p>
+                        Hey there! 🚀 We have 3 flexible tiers at <strong>Agentify-360</strong>:
+                      </p>
+                      <p>• <strong>Starter ($150)</strong>: Text-only DM auto-replies 24/7</p>
+                      <p>• <strong>Standard ($350)</strong>: Adds Voice Note listening & reply</p>
+                      <p>• <strong>Pro ($600)</strong>: Adds Image & payment receipt OCR</p>
+                      <p className="text-[10px] text-pink-400 font-medium">You can start at any tier and upgrade later!</p>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'voice' && (
+                  <>
+                    <div className="self-end bg-[#374151] text-white px-3.5 py-2 rounded-2xl rounded-tr-none max-w-[85%] flex items-center gap-2">
+                      <Mic className="w-4 h-4 text-pink-400 shrink-0" />
+                      <div className="flex-1 space-y-1">
+                        <div className="flex items-center gap-1">
+                          <span className="w-1 h-3 bg-pink-400 rounded-full animate-pulse" />
+                          <span className="w-1 h-5 bg-pink-400 rounded-full" />
+                          <span className="w-1 h-2 bg-pink-400 rounded-full" />
+                          <span className="w-1 h-4 bg-pink-400 rounded-full animate-pulse" />
+                          <span className="w-1 h-2 bg-pink-400 rounded-full" />
+                          <span className="text-[10px] text-gray-300 ml-1">0:14 Voice Note</span>
+                        </div>
+                        <p className="text-[10px] text-gray-400 italic">"Can the bot handle audio notes from clients?"</p>
+                      </div>
+                    </div>
+                    <div className="self-start bg-[#1F293D] border border-white/10 text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[90%] space-y-2">
+                      <div className="flex items-center gap-2 p-1.5 bg-black/40 rounded-xl">
+                        <button
+                          onClick={() => setIsPlayingAudio(!isPlayingAudio)}
+                          className="w-7 h-7 rounded-full bg-pink-500 hover:bg-pink-600 flex items-center justify-center text-white"
+                        >
+                          <Play className="w-3.5 h-3.5 fill-white ml-0.5" />
+                        </button>
+                        <div>
+                          <p className="font-semibold text-white text-[11px]">AI Voice Response (0:18)</p>
+                          <p className="text-[9px] text-gray-400">Synthesized brand voice</p>
+                        </div>
+                      </div>
+                      <p className="text-gray-300 text-[11px]">
+                        "Yes! The Standard ($350) and Pro ($600) tiers transcribe follower voice notes in seconds and reply back automatically."
+                      </p>
+                    </div>
+                  </>
+                )}
+
+                {activeTab === 'image' && (
+                  <>
+                    <div className="self-end bg-[#374151] text-white p-2 rounded-2xl rounded-tr-none max-w-[85%] space-y-1.5">
+                      <div className="bg-[#1C2333] rounded-lg p-2 border border-white/10 flex items-center gap-2">
+                        <ImageIcon className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span className="text-[11px] truncate">Meezan_Transfer_Receipt.jpg</span>
+                      </div>
+                      <p className="text-[11px]">I have transferred $600 to Saif Ur Rehman. Please check!</p>
+                    </div>
+                    <div className="self-start bg-[#1F293D] border border-white/10 text-gray-200 px-3.5 py-2.5 rounded-2xl rounded-tl-none max-w-[90%] space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-emerald-400 font-semibold text-[11px]">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Screenshot OCR Verified</span>
+                      </div>
+                      <p className="text-[11px]">
+                        Recipient: <strong>SAIF UR REHMAN AKHTAR</strong><br />
+                        Account: <strong>76010111536310 (Meezan Bank)</strong><br />
+                        Status: <span className="text-amber-400 font-semibold">UNPAID CONFIRMED</span>
+                      </p>
+                      <p className="text-[10px] text-gray-400">
+                        Order logged! Team will verify in bank account and confirm build.
+                      </p>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Fake message input */}
+              <div className="mt-3 pt-2 border-t border-white/10 flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value="Tap any tier above to test live preview..."
+                  className="w-full bg-[#0B0F17] rounded-full px-3.5 py-2 text-[11px] text-gray-500 border border-white/5 outline-none cursor-default"
+                />
+                <button
+                  onClick={() => onOpenOrder()}
+                  className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white shrink-0 hover:bg-pink-600 transition-colors"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-
-        {/* Restaurant Name */}
-        <h1 className="font-display font-medium italic text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#E3CAA0] tracking-tight leading-[1.05] drop-shadow-md">
-          Kalaya
-        </h1>
-
-        {/* Gold ornamental flourish divider */}
-        <BotanicalMotif variant="divider" className="my-4 sm:my-6 w-48 sm:w-64" />
-
-        {/* 1-Line Brand Statement */}
-        <p className="font-display italic text-lg sm:text-2xl md:text-3xl text-[#F5EFE3] max-w-2xl mx-auto leading-snug font-normal">
-          “Bold flavors, vibrant spices, and celebratory Southern Thai soul.”
-        </p>
-
-        {/* Evocative sub-paragraph */}
-        <p className="mt-4 text-xs sm:text-base text-[#D8CFBC] max-w-xl mx-auto leading-relaxed font-light">
-          Built upon heirloom market recipes from Trang province, honoring Chef Nok’s mother with uncompromising heat, fresh turmeric curries, and joyful hospitality.
-        </p>
-
-        {/* Call to action buttons */}
-        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
-          <button
-            onClick={onOpenReservation}
-            className="w-full sm:w-auto px-8 py-4 rounded bg-[#B5502D] hover:bg-[#943F22] text-white text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold transition-all duration-300 shadow-xl shadow-[#B5502D]/25 flex items-center justify-center gap-2 group focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-          >
-            <Sparkles className="w-4 h-4 text-[#E3CAA0] group-hover:rotate-12 transition-transform" />
-            Reserve a Table
-          </button>
-
-          <button
-            onClick={onOpenMenu}
-            className="w-full sm:w-auto px-8 py-4 rounded border border-[#C9A44C] bg-[#1C1710]/60 hover:bg-[#C9A44C]/10 text-[#E3CAA0] hover:text-white text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold transition-all duration-300 focus-visible:outline-2 focus-visible:outline-[#C9A44C]"
-          >
-            Explore Menus
-          </button>
-        </div>
-
-        {/* Accolade preview bar */}
-        <div className="mt-12 pt-6 border-t border-[#C9A44C]/15 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-[11px] sm:text-xs uppercase tracking-[0.22em] text-[#A69B82]">
-          <span className="flex items-center gap-1.5">
-            <span className="text-[#C9A44C]">★</span> James Beard Award Winner
-          </span>
-          <span className="hidden sm:inline text-[#C9A44C]/40">·</span>
-          <span className="flex items-center gap-1.5">
-            <span className="text-[#C9A44C]">★</span> Esquire Best New Restaurant
-          </span>
-          <span className="hidden sm:inline text-[#C9A44C]/40">·</span>
-          <span className="flex items-center gap-1.5">
-            <span className="text-[#C9A44C]">★</span> NYT Top 50 in America
-          </span>
-        </div>
       </div>
-
-      {/* Pulsing Scroll Cue */}
-      <a
-        href="#chef"
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#C9A44C]/70 hover:text-[#C9A44C] transition-colors"
-        aria-label="Scroll to Chef Spotlight section"
-      >
-        <span className="text-[10px] uppercase tracking-[0.25em]">Discover</span>
-        <ChevronDown className="w-4 h-4 animate-bounce" />
-      </a>
     </section>
   );
 };
